@@ -3,7 +3,7 @@ name: Build and push Periscope image
 on:
   push:
     branches:
-      - master
+      - main
 
 concurrency:
   group: build-periscope-image-${{ github.ref }}
