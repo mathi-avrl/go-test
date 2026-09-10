@@ -24,6 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Set image tag
+        id: meta
+        run: echo "tag=$(date -u +%Y%m%d)a" >> "$GITHUB_OUTPUT"
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v3
         with:
@@ -45,5 +49,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.AR_HOST }}/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-            ${{ env.AR_HOST }}/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.AR_HOST }}/${{ vars.GCP_PROJECT_ID }}/${{ vars.GCP_ARTIFACT_REPO }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tag }}
